@@ -18,19 +18,10 @@ void prosmotr_kolesa(kolesa* koleso);
 void prosmotr_obchee(obchee* obchie);
 void prosmotr_korobka(korobka_peredach* korobka_peredach1);
 void prosmotr_motor(motor* motorishe);
+void new_car(avto* avtomobil);
+void new_vod(voditel* vod);
 
 
-void setON();
-void setOFF();
-void tip(string name);
-void up_polosa();
-void down_polosa();
-void polosa();
-void del_avto(struct avto* mashina, int* vsego, struct voditel* vod);
-void compare(double inf1, double inf2);
-void del_vod(struct voditel* vod, int* kol_vo_vodit, struct avto* mashina, int vsego);
-void create_vod_avto(struct avto* mashina, int vsego, int kol_vo_vodit, struct voditel* vod);
-void compare_avto(int vsego, struct avto* mashina, struct voditel* vod);
 
 //функция главного меню
 
@@ -453,8 +444,7 @@ void compare_avto(int vsego, struct avto* mashina, struct voditel* vod)
 
 }
 */
-void new_car(avto* avtomobil);
-void new_vod(voditel* vod);
+
 
 int demo()
 {
@@ -542,13 +532,15 @@ int demo()
             system("cls");
             for (i = 0; i < kol_vo_m; i++)
             {
-                prosmotr_avto(&mashina[0]);
+                prosmotr_avto(&(mashina[i]));
+                //prosmotr_motor(&(mashina[i]).har2);
             }
             //prosmotr_avto(kol_vo_m, mashina, vod1);
 
             cout << "\n\nНажмите любую клавишу для возврата в меню";
             _getch();
         }
+        /*
         if (menu == '4' && kol_vo_v > 0)
         {
             system("cls");
@@ -580,5 +572,6 @@ int demo()
         {
             exit;
         }
+        */
     } while (true);
 }
