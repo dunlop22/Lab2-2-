@@ -256,55 +256,73 @@ void new_korobka( korobka_peredach* korobka_peredach1)
 }
 
 //функция создания нового водителя
-void new_vod( voditel* vod)
+void new_vod(voditel* vod, int red)
 {
-	int menu;
-	do
+	int menu = '1';
+	if (red == 0)
 	{
-		system("cls");
-		cout << "1) Ввод собственных данных о водителе\n2)Создание по конструктору";
-		menu = _getch();
-	} while (menu != '1' && menu != '2');
+		do
+		{
+			system("cls");
+			cout << "1) Ввод собственных данных о водителе\n2) Создание по конструктору";
+			menu = _getch();
+		} while (menu != '1' && menu != '2');
+	}
 	system("cls");
 	if (menu == '1')
 	{
-		cout << "Введите ФИО водителя : ";
-		gets_s(vod->name);
-		while (strlen(vod->name) == 0)
+		if (red == 1 || red == 0)
 		{
-			printf("Неверно введен ФИО водителя, попробуйте еще: ");
+			cout << "Введите ФИО водителя : ";
 			gets_s(vod->name);
+			while (strlen(vod->name) == 0)
+			{
+				printf("Неверно введен ФИО водителя, попробуйте еще: ");
+				gets_s(vod->name);
+			}
 		}
-
-		cout << "Введите возраст: ";
-		while (scanf("%lf", &vod->age) != 1)
+		if (red == 2 || red == 0)
 		{
-			printf("Неверно введен возраст водителя, попробуйте еще: ");
+			cout << "Введите возраст: ";
+			while (scanf("%lf", &vod->age) != 1)
+			{
+				printf("Неверно введен возраст водителя, попробуйте еще: ");
+				while (getchar() != '\n');
+			}
 			while (getchar() != '\n');
 		}
-		while (getchar() != '\n');
-		cout << "Введите пол водителя (М/Ж): ";
-		gets_s(vod->pol);
-		while (strlen(vod->pol) == 0)
+		if (red == 3 || red == 0)
 		{
-			printf("Неверно введен пол водителя, попробуйте еще: ");
+			cout << "Введите пол водителя (М/Ж): ";
 			gets_s(vod->pol);
+			while (strlen(vod->pol) == 0)
+			{
+				printf("Неверно введен пол водителя, попробуйте еще: ");
+				gets_s(vod->pol);
+			}
 		}
-
-		cout << "Введите статус Covid-19 (переболел/привит/неизвестно): ";
-		gets_s(vod->covid_19);
-		while (strlen(vod->covid_19) == 0)
+		
+		if (red == 4 || red == 0)
 		{
-			printf("Неверно введен статус COVID-19, попробуйте еще: ");
+			cout << "Введите статус Covid-19 (переболел/привит/неизвестно): ";
 			gets_s(vod->covid_19);
+			while (strlen(vod->covid_19) == 0)
+			{
+				printf("Неверно введен статус COVID-19, попробуйте еще: ");
+				gets_s(vod->covid_19);
+			}
 		}
-		cout << "Введите стаж водителя: ";
-		while (scanf("%lf", &vod->stag) != 1)
+		
+		if (red == 5 || red == 0)
 		{
-			printf("Неверно введен стаж водителя, попробуйте еще: ");
+			cout << "Введите стаж водителя: ";
+			while (scanf("%lf", &vod->stag) != 1)
+			{
+				printf("Неверно введен стаж водителя, попробуйте еще: ");
+				while (getchar() != '\n');
+			}
 			while (getchar() != '\n');
 		}
-		while (getchar() != '\n');
 	}
 	else
 	{
@@ -467,23 +485,31 @@ void prosmotr_agr(struct motor* motorishe, struct kolesa* koleso, struct obchee*
 //функция для редактирования информации о водителе
 void redaktir_vod(struct voditel* vod)
 {
-	int numb_punkt = 0;
-	do
+	system("cls");
+	if (vod->age > 0)
 	{
-		system("cls");
-		cout << "\n1) ФИО (" << vod->name << ")";
-		cout << "\n2) Возраст (" << vod->age << ")";
-		cout << "\n3) Пол (" << vod->pol << ")";
-		cout << "\n4) Статус Covid-19  (" << vod->covid_19 << ")";
-		cout << "\n5) Стаж (" << vod->stag << ")";
-		cout << "\n\nВыберите пункт для редактирования информации: ";
-		scanf("%d", &numb_punkt);
-		while (getchar() != '\n');
-	} while (numb_punkt < 1 || numb_punkt > 5);
-	if (numb_punkt == 1)
-	{
-
+		int numb_punkt = 0;
+		do
+		{
+			system("cls");
+			cout << "\n1) ФИО (" << vod->name << ")";
+			cout << "\n2) Возраст (" << vod->age << ")";
+			cout << "\n3) Пол (" << vod->pol << ")";
+			cout << "\n4) Статус Covid-19  (" << vod->covid_19 << ")";
+			cout << "\n5) Стаж (" << vod->stag << ")";
+			cout << "\n\nВыберите пункт для редактирования информации: ";
+			scanf("%d", &numb_punkt);
+			while (getchar() != '\n');
+		} while (numb_punkt < 1 || numb_punkt > 5);
+		new_vod(vod, numb_punkt);
 	}
+	else
+	{
+		cout << "Информация о водителях отсутствует.\n\nДля выхода в меню нажмите любую клавишу";
+		_getch();
+	}
+	
+	
 }
 
 //Функции привязки/отвязки водителя + автомобиль
@@ -576,7 +602,7 @@ void gl_menu()
 		}
 		else if (menu == '7')
 		{
-			new_vod(&vod);
+			new_vod(&vod, 0);
 		}
 		else if (menu == '8')
 		{

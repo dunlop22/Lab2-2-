@@ -19,13 +19,8 @@ void prosmotr_obchee(obchee* obchie);
 void prosmotr_korobka(korobka_peredach* korobka_peredach1);
 void prosmotr_motor(motor* motorishe);
 void new_car(avto* avtomobil);
-void new_vod(voditel* vod);
-
-
-
-//функция главного меню
-
-
+void new_vod(voditel* vod, int red);
+void prosmotr_vod(voditel* vod);
 
 
 void setON()
@@ -38,7 +33,6 @@ void setOFF()
     _setmode(_fileno(stdout), O_TEXT);
     _setmode(_fileno(stdin), O_TEXT);
 }
-
 void tip(string name)
 {
     int i;
@@ -125,39 +119,63 @@ void polosa()
     cout << "\n";
 }
 
-
-/*
-//функция вывода информации о текущих автомобилях 
-void prosmotr_avto(int vsego, struct avto* mashina, struct voditel* vod)
+//функция удаления информации о водителе
+void del_vod(struct voditel* vod, int* kol_vo_vodit, struct avto* mashina, int vsego)
 {
-    int i;
-    for (i = 0; i < vsego; i++)
+    int numb, i;
+    do
     {
-        cout << "\nАвтомобиль №" << i + 1 << "\n";
-        prosmotr_avto(&mashina[i]);
-        
-        
-        /*
-        prosmotr_motor(&(mashina + i)->har2);
-        
-
-        prosmotr_obchee(*mashina[i].har5);
-        prosmotr_motor((mashina + i)->har2);
-        prosmotr_kolesa(mashina[i].har3);
-        prosmotr_korobka((mashina + i)->har4);
-        
-        
-        if ((mashina + i)->vod == NULL)
+        system("cls");
+        for (i = 0; i < *kol_vo_vodit; i++)
         {
-            cout << "\n\nВодитель: " << (mashina + i)->vod->name;
+            prosmotr_vod(vod);
         }
-        cout << "\n****************************\n";
+        
+        cout << "\n\nВведите номер водителя для удаления: ";
+        scanf("%d", &numb);
+        while (getchar() != '\n');
+    } while (numb < 1 || numb > *kol_vo_vodit);
+
+    struct voditel* vod_dubl;
+    vod_dubl = (voditel*)malloc(1 * sizeof(voditel));
+    for (i = numb - 1; i < *kol_vo_vodit - 1; i++)
+    {
+        *vod_dubl = vod[i];
+        vod[i] = vod[i + 1];
     }
+    *kol_vo_vodit = *kol_vo_vodit - 1;
 
-}*/
+}
 
-/*
-///функция анализа данных авто
+//функция удаления информации об авто
+void del_avto(struct avto* mashina, int* vsego, struct voditel* vod)
+{
+    int numb, i;
+    do
+    {
+        system("cls");
+        for (i = 0; i < *vsego; i++)
+        {
+            cout << "\n\n\nАВТОМОБИЛЬ №" << i + 1;
+            prosmotr_avto(&mashina[i]);
+        }
+        cout << "\n\nВведите номер авто для удаления: ";
+        scanf("%d", &numb);
+        while (getchar() != '\n');
+    } while (numb < 1 || numb > *vsego);
+
+    //перенос всех машин вниз
+    for (i = numb - 1; i < *vsego - 1; i++)
+    {
+        struct avto* avto_dubl;
+        avto_dubl = (avto*)malloc(1 * sizeof(avto));
+        *avto_dubl = mashina[i];
+        mashina[i] = mashina[i + 1];
+    }
+    *vsego = *vsego - 1;
+}
+
+//функция анализа данных авто
 void compare(double inf1, double inf2)
 {
     int green = 10;
@@ -241,81 +259,6 @@ void compare(double inf1, double inf2)
     wcout << L"\u2551";
     setOFF();
     cout << "\n";
-}
-
-//функция удаления информации об авто
-void del_avto(struct avto* mashina, int* vsego, struct voditel* vod)
-{
-    int numb, i;
-    do
-    {
-        system("cls");
-        prosmotr_avto(*vsego, mashina, vod);
-        cout << "\n\nВведите номер авто для удаления: ";
-        scanf("%d", &numb);
-        while (getchar() != '\n');
-    } while (numb < 1 || numb > *vsego);
-
-    //перенос всех машин вниз
-    for (i = numb - 1; i < *vsego - 1; i++)
-    {
-        struct avto* avto_dubl;
-        avto_dubl = (avto*)malloc(1 * sizeof(avto));
-        *avto_dubl = mashina[i];
-        mashina[i] = mashina[i + 1];
-    }
-    *vsego = *vsego - 1;
-}
-
-//функция удаления информации о водителе
-void del_vod(struct voditel* vod, int* kol_vo_vodit, struct avto* mashina, int vsego)
-{
-    int numb, i;
-    do
-    {
-        system("cls");
-        prosmotr_voditel(*kol_vo_vodit, vod);
-        cout << "\n\nВведите номер водителя для удаления: ";
-        scanf("%d", &numb);
-        while (getchar() != '\n');
-    } while (numb < 1 || numb > *kol_vo_vodit);
-
-    for (i = numb - 1; i < *kol_vo_vodit - 1; i++)
-    {
-        struct voditel* vod_dubl;
-        vod_dubl = (voditel*)malloc(1 * sizeof(voditel));
-        *vod_dubl = vod[i];
-        vod[i] = vod[i + 1];
-    }
-    *kol_vo_vodit = *kol_vo_vodit - 1;
-
-}
-
-//функция создания связи между водителем и авто
-void create_vod_avto(struct avto* mashina, int vsego, int kol_vo_vodit, struct voditel* vod)
-{
-    int i, numb, numb_vod;
-    do
-    {
-        system("cls");
-        for (i = 0; i < vsego; i++)
-        {
-            cout << i + 1 << ") " << mashina[i].har5.name << "\n";
-        }
-        cout << "\n\nВведите номер авто для привязки водителя: ";
-        scanf("%d", &numb);
-        while (getchar() != '\n');
-    } while (numb < 1 || numb > vsego);
-
-    do
-    {
-        system("cls");
-        prosmotr_voditel(kol_vo_vodit, vod);
-        cout << "\n\nВведите номер водителя для привязки к автомобилю " << mashina[numb - 1].har5.name << ": ";
-        scanf("%d", &numb_vod);
-        while (getchar() != '\n');
-    } while (numb_vod < 1 || numb_vod > kol_vo_vodit);
-    //mashina[numb - 1].vod = numb_vod - 1;
 }
 
 //функция сравнения двух автомобилей
@@ -443,20 +386,78 @@ void compare_avto(int vsego, struct avto* mashina, struct voditel* vod)
 
 
 }
-*/
+
+
+
+
+
+//функция создания связи между водителем и авто
+void create_vod_avto(struct avto* mashina, int vsego, int kol_vo_vodit, struct voditel* vod)
+{
+    int i, numb, numb_vod, func;
+    do
+    {
+        system("cls");
+        cout << "1) Привязка водителя к автомобилю\n2) Отвязка водителя от автомобиля";
+        func = _getch();
+    } while (func < '1' || func > '2');
+    do
+    {
+        system("cls");
+        for (i = 0; i < vsego; i++)
+        {
+            cout << i + 1 << ") " << mashina[i].har5.name << "\n";
+        }
+        cout << "\n\nВведите номер авто: ";
+        scanf("%d", &numb);
+        while (getchar() != '\n');
+    } while (numb < 1 || numb > vsego);
+
+    if (func == '1')
+    {
+        do
+        {
+            system("cls");
+            for (i = 0; i < kol_vo_vodit; i++)
+            {
+                cout << "\n\nВодитель №" << i + 1;
+                prosmotr_vod(vod);
+            }
+            cout << "\n\nВведите номер водителя для привязки к автомобилю " << mashina[numb - 1].har5.name << ": ";
+            scanf("%d", &numb_vod);
+            while (getchar() != '\n');
+        } while (numb_vod < 1 || numb_vod > kol_vo_vodit);
+        mashina[numb - 1].vod = &vod[numb_vod - 1];
+        system("cls");
+        cout << "Привязка водителя прошла успешно";
+    }
+    else
+    {
+        mashina[numb - 1].vod = NULL;
+        system("cls");
+        cout << "Отвязка водителя прошла успешно";
+    }
+    cout << "\n\nНажмите любую клавишу для возврата в меню.";
+    _getch();
+}
 
 
 int demo()
 {
-    int tekuchee = 0;
+    int black = 0;
+    int white = 15;
+    HANDLE  hConsole;
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, (WORD)((white << 4) | black));
+
     int menu;
     int i;
     int kol_vo_v = 0;
     int kol_vo_m = 0;
-    int teck_voditel = 0;
     struct avto* mashina;    //создание массива автомобилей
     struct voditel* vod1;    //создание массива водителей
-    
+    vod1 = (voditel*)malloc(0 * sizeof(voditel));
+    mashina = (avto*)malloc(0 * sizeof(avto));
     do
     {
         system("cls");
@@ -487,14 +488,9 @@ int demo()
         {
             cout << "\n9) Удалить информацию об автомобиле";
         }
-        if (kol_vo_v > 0)
-        {
-            cout << "\n\n0) Изменение информации о водителе";
-        }
         cout << "\n\nESC - выход";
         menu = _getch();
-        vod1 = (voditel*)malloc(0 * sizeof(voditel));
-        mashina = (avto*)malloc(0 * sizeof(avto));
+        
         if (menu == '1')
         {
             do
@@ -508,6 +504,7 @@ int demo()
             for (i = 0; i < kol_vo_m; i++)
             {
                 new_car(&mashina[i]);
+                mashina[i].vod = NULL;
                 cout << "Автомобиль №" << i + 1 << " успешно создан.\n\nНажмите любую клавишу для продолжения";
                 _getch();
             }
@@ -524,7 +521,7 @@ int demo()
             vod1 = (voditel*)malloc(kol_vo_v * sizeof(voditel));
             for (i = 0; i < kol_vo_v; i++)
             {
-                new_vod(&vod1[i]);
+                new_vod(&vod1[i], 0);
             }
         }
         if (menu == '3' && kol_vo_m > 0)
@@ -532,19 +529,20 @@ int demo()
             system("cls");
             for (i = 0; i < kol_vo_m; i++)
             {
+                cout << "\n\nАВТОМОБИЛЬ №" << i + 1;
                 prosmotr_avto(&(mashina[i]));
-                //prosmotr_motor(&(mashina[i]).har2);
             }
-            //prosmotr_avto(kol_vo_m, mashina, vod1);
-
             cout << "\n\nНажмите любую клавишу для возврата в меню";
             _getch();
         }
-        /*
+        
         if (menu == '4' && kol_vo_v > 0)
         {
             system("cls");
-            //prosmotr_voditel(kol_vo_v, vod1);
+            for (i = 0; i < kol_vo_v; i++)
+            {
+                prosmotr_vod( vod1);
+            }
             cout << "\n\nДля возврата в меню нажмите любую клавишу.";
             _getch();
         }
@@ -564,14 +562,9 @@ int demo()
         {
             del_avto(mashina, &kol_vo_m, vod1);
         }
-        if (menu == '0' && kol_vo_v > 0)
-        {
-            return 0;
-        }
         if (menu == 27)
         {
             exit;
         }
-        */
     } while (true);
 }
