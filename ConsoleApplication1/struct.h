@@ -19,7 +19,7 @@ struct motor
 struct voditel
 {
     double num_vod;
-    char name[20];
+    char name[50];
     double age;
     double stag;
     char pol[20];
