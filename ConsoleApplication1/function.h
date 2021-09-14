@@ -258,6 +258,7 @@ void new_korobka(struct korobka_peredach* korobka_peredach1)
 //функция создания нового водителя
 void new_vod(struct voditel* vod)
 {
+
 	int menu;
 	do
 	{
@@ -268,7 +269,6 @@ void new_vod(struct voditel* vod)
 	system("cls");
 	if (menu == '1')
 	{
-
 		cout << "Введите ФИО водителя : ";
 		gets_s(vod->name);
 		while (strlen(vod->name) == 0)
@@ -396,7 +396,7 @@ void prosmotr_korobka(struct korobka_peredach* korobka_peredach1)
 //функция просмотра информации о водителе
 void prosmotr_vod(struct voditel* vod)
 {
-	cout << "\nФИО: " << vod->name;
+	cout << "\n\nИНФОРМАЦИЯ О ВОДИТЕЛЕ:\nФИО: " << vod->name;
 	cout << "\nВозраст: " << vod->age;
 	cout << "\nПол: " << vod->pol;
 	cout << "\nСтатус Covid-19: " << vod->covid_19;
@@ -435,6 +435,11 @@ void prosmotr_agr(struct motor* motorishe, struct kolesa* koleso, struct obchee*
 			prosmotr_kolesa(&avtomobil->har3);
 			prosmotr_obchee(&avtomobil->har5);
 			prosmotr_korobka(&avtomobil->har4);
+			
+			if (avtomobil->vod != NULL)
+			{
+				prosmotr_vod(avtomobil->vod);
+			}
 		}
 		else
 		{
@@ -478,6 +483,15 @@ void redaktir_vod(struct voditel* vod)
 
 	}
 }
+void vod_otv(struct avto* avtomobil)
+{
+	voditel* vod = NULL;
+}
+void vod_priv(avto* avtomobil, voditel* vod)
+{
+	avtomobil->vod = vod;
+	return;
+}
 
 //главное меню
 void gl_menu()
@@ -493,7 +507,7 @@ void gl_menu()
 	{
 
 		system("cls");
-		cout << "\n1) Новый двигатель\n2) Новые колеса\n3) Новые общие характеристики\n4) Новая коробка передач\n5) Новый авто\n6) Просмотр агрегатов, авто и водителей\n7) Новый водитель\n8) Изменить информацию о водителе\n9) Демо версия (сравнение авто, добавление списка авто)\n\nESC - выход";
+		cout << "\n1) Новый двигатель\n2) Новые колеса\n3) Новые общие характеристики\n4) Новая коробка передач\n5) Новый авто\n6) Просмотр агрегатов, авто и водителей\n7) Новый водитель\n8) Изменить информацию о водителе\n9) Демо версия (сравнение авто, добавление списка авто)\n0) Привязка водителя к автомобилю\n\nESC - выход";
 		menu = _getch();
 		if (menu == '1')
 		{
@@ -529,7 +543,23 @@ void gl_menu()
 		}
 		else if (menu == '9')
 		{
-			demo();
+			//demo();
+		}
+		else if (menu == '0')
+		{
+			int menu_p;
+			system("cls");
+
+			cout << "1) Привязка водителя\n2) Отвязка водителя";
+			menu_p = _getch();
+			if (menu_p == '1')
+			{
+				vod_priv(&avtomobil, &vod);
+			}
+			else if (menu_p == '2')
+			{
+				vod_otv(&avtomobil);
+			}
 		}
 	} while (menu != 27);
 

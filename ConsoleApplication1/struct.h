@@ -57,5 +57,5 @@ struct avto
     kolesa har3;
     korobka_peredach har4;
     obchee har5;
-    int vod;
+    voditel* vod = NULL;
 };
