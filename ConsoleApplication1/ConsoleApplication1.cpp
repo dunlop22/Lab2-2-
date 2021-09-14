@@ -10,7 +10,10 @@
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    setlocale(LC_ALL, "Rus");
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    gl_menu();
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
