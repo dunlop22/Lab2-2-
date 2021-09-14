@@ -13,7 +13,7 @@
 using namespace std;
 
 //function.h
-void prosmotr_avto(avto avtomobil);
+void prosmotr_avto(avto *avtomobil);
 void prosmotr_kolesa(kolesa* koleso);
 void prosmotr_obchee(obchee* obchie);
 void prosmotr_korobka(korobka_peredach* korobka_peredach1);
@@ -542,7 +542,7 @@ int demo()
             system("cls");
             for (i = 0; i < kol_vo_m; i++)
             {
-                prosmotr_avto(&&mashina[0]);
+                prosmotr_avto(&mashina[0]);
             }
             //prosmotr_avto(kol_vo_m, mashina, vod1);
 
