@@ -6,6 +6,9 @@
 #include <string>
 #include <windows.h>
 #include <iostream>
+#include "demo.h"
+#include "struct.h"
+
 using namespace std;
 
 //фукнция создания нового двигателя
@@ -326,18 +329,25 @@ void new_car(struct avto* avtomobil)
 //функция просмотра информации о двигателе
 void prosmotr_motor(struct motor* motorishe)
 {
-	cout << "\n\nИНФОРАЦИЯ О ДВИГАТЕЛЕ:\nМаркировка двигателя: " << motorishe->name;
-	cout << "\nРабочий объем: " << motorishe->rab_obem;
-	cout << "\nМощность (л.с.): " << motorishe->koni;
-	cout << "\nСредний расход на 100км: " << motorishe->rasxod;
-	cout << "\nКоличество цилиндров: " << motorishe->kol_vo_cilindr;
-	cout << "\nКоличество клапанов на 1 цилиндр: " << motorishe->klapan;
+	if (motorishe->rasxod >= 0)
+	{
+		cout << "\n\nИНФОРАЦИЯ О ДВИГАТЕЛЕ:\nМаркировка двигателя: " << motorishe->name;
+		cout << "\nРабочий объем: " << motorishe->rab_obem;
+		cout << "\nМощность (л.с.): " << motorishe->koni;
+		cout << "\nСредний расход на 100км: " << motorishe->rasxod;
+		cout << "\nКоличество цилиндров: " << motorishe->kol_vo_cilindr;
+		cout << "\nКоличество клапанов на 1 цилиндр: " << motorishe->klapan;
+	}
+	else
+	{
+		cout << "Информация о двигателе отсутствует";
+	}
 }
 
 //функция просмотра информации о колесах
 void prosmotr_kolesa(struct kolesa *koleso)
 {
-	if (koleso->tip_diska != NULL)
+	if (koleso->visota >= 0)
 	{
 		cout << "\n\nИНФОРМАЦИЯ О КОЛЕСАХ\nШирина колеса: " << koleso->shirina;
 		cout << "\nДиаметр колеса: " << koleso->diametr;
@@ -353,26 +363,39 @@ void prosmotr_kolesa(struct kolesa *koleso)
 //функция просмотра общей информации
 void prosmotr_obchee(struct obchee *obchie)
 {
-	cout << "\n\nОБЩАЯ ИНФОРМАЦИЯ:\nМодель: " << obchie->name;
-	cout << "\nТип привода: " << obchie->tip_privoda;
-	cout << "\nТип топлива: " << obchie->tip_topliva;
-	cout << "\nКоличество посадочных мест: " << obchie->kolvo_mest;
-	cout << "\nВремя разгона до 100км/ч: " << obchie->razgon_do_100;
-	cout << "\nОбъем бензобака: " << obchie->obem_benzobaka;
-	cout << "\nМасса: " << obchie->massa;
+	if (obchie->obem_benzobaka >= 0)
+	{
+		cout << "\n\nОБЩАЯ ИНФОРМАЦИЯ:\nМодель: " << obchie->name;
+		cout << "\nТип привода: " << obchie->tip_privoda;
+		cout << "\nТип топлива: " << obchie->tip_topliva;
+		cout << "\nКоличество посадочных мест: " << obchie->kolvo_mest;
+		cout << "\nВремя разгона до 100км/ч: " << obchie->razgon_do_100;
+		cout << "\nОбъем бензобака: " << obchie->obem_benzobaka;
+		cout << "\nМасса: " << obchie->massa;
+	}
+	else
+	{
+		cout << "Обшая информация отсутствует";
+	}
 }
 
 //функция просмотра информации о коробке переключения
 void prosmotr_korobka(struct korobka_peredach* korobka_peredach1)
 {
-	cout << "\n\nИНФОРМАЦИЯ О КОРОБКЕ ПЕРЕКЛЮЧЕНИЯ ПЕРЕДАЧ\nТип коробки переключения передач: " << korobka_peredach1->tip_korobki;
-	cout << "\nКоличество передач коробки: " << korobka_peredach1->kolvo_peredach;
+	if (korobka_peredach1->kolvo_peredach >= 0)
+	{
+		cout << "\n\nИНФОРМАЦИЯ О КОРОБКЕ ПЕРЕКЛЮЧЕНИЯ ПЕРЕДАЧ\nТип коробки переключения передач: " << korobka_peredach1->tip_korobki;
+		cout << "\nКоличество передач коробки: " << korobka_peredach1->kolvo_peredach;
+	}
+	else
+	{
+		cout << "Информации о коробках передач отсутствует";
+	}
 }
 
 //функция просмотра информации о водителе
 void prosmotr_vod(struct voditel* vod)
 {
-	int i;
 	cout << "\nФИО: " << vod->name;
 	cout << "\nВозраст: " << vod->age;
 	cout << "\nПол: " << vod->pol;
@@ -406,18 +429,54 @@ void prosmotr_agr(struct motor* motorishe, struct kolesa* koleso, struct obchee*
 	}
 	else if (menu == '5')
 	{
-		prosmotr_motor(&avtomobil->har2);
-		prosmotr_kolesa(&avtomobil->har3);
-		prosmotr_obchee(&avtomobil->har5);
-		prosmotr_korobka(&avtomobil->har4);
+		if (avtomobil->har2.kol_vo_cilindr >= 0)
+		{
+			prosmotr_motor(&avtomobil->har2);
+			prosmotr_kolesa(&avtomobil->har3);
+			prosmotr_obchee(&avtomobil->har5);
+			prosmotr_korobka(&avtomobil->har4);
+		}
+		else
+		{
+			cout << "Информация об автомобиле отсутствует";
+		}
 	}
 	else if (menu== '6')
 	{
-		prosmotr_vod(vod);
+		if (vod->age >= 0)
+		{
+			prosmotr_vod(vod);
+		}
+		else
+		{
+			cout << "Информация о водителе отсутствует";
+		}
 	}
 	
 	cout << "\n\nДля возврата в меню нажмите любую клавишу";
 	_getch();
+}
+
+//функция для редактирования информации о водителе
+void redaktir_vod(struct voditel* vod)
+{
+	int numb_punkt = 0;
+	do
+	{
+		system("cls");
+		cout << "\n1) ФИО (" << vod->name << ")";
+		cout << "\n2) Возраст (" << vod->age << ")";
+		cout << "\n3) Пол (" << vod->pol << ")";
+		cout << "\n4) Статус Covid-19  (" << vod->covid_19 << ")";
+		cout << "\n5) Стаж (" << vod->stag << ")";
+		cout << "\n\nВыберите пункт для редактирования информации: ";
+		scanf("%d", &numb_punkt);
+		while (getchar() != '\n');
+	} while (numb_punkt < 1 || numb_punkt > 5);
+	if (numb_punkt == 1)
+	{
+
+	}
 }
 
 //главное меню
@@ -434,7 +493,7 @@ void gl_menu()
 	{
 
 		system("cls");
-		cout << "\n1) Новый двигатель\n2) Новые колеса\n3) Новые общие характеристики\n4) Новая коробка передач\n5) Новый авто\n6) Просмотр агрегатов, авто и водителей\n7) Новый водитель\n8) Изменить информацию о водителе\n\nESC - выход";
+		cout << "\n1) Новый двигатель\n2) Новые колеса\n3) Новые общие характеристики\n4) Новая коробка передач\n5) Новый авто\n6) Просмотр агрегатов, авто и водителей\n7) Новый водитель\n8) Изменить информацию о водителе\n9) Демо версия (сравнение авто, добавление списка авто)\n\nESC - выход";
 		menu = _getch();
 		if (menu == '1')
 		{
@@ -466,7 +525,11 @@ void gl_menu()
 		}
 		else if (menu == '8')
 		{
-
+			redaktir_vod(&vod);
+		}
+		else if (menu == '9')
+		{
+			demo();
 		}
 	} while (menu != 27);
 

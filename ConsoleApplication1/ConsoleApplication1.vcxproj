@@ -142,6 +142,7 @@
     <ClCompile Include="ConsoleApplication1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="demo.h" />
     <ClInclude Include="function.h" />
     <ClInclude Include="struct.h" />
   </ItemGroup>
