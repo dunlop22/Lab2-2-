@@ -258,7 +258,6 @@ void new_korobka(struct korobka_peredach* korobka_peredach1)
 //функция создания нового водителя
 void new_vod(struct voditel* vod)
 {
-
 	int menu;
 	do
 	{
@@ -457,7 +456,6 @@ void prosmotr_agr(struct motor* motorishe, struct kolesa* koleso, struct obchee*
 			cout << "Информация о водителе отсутствует";
 		}
 	}
-	
 	cout << "\n\nДля возврата в меню нажмите любую клавишу";
 	_getch();
 }
@@ -484,21 +482,7 @@ void redaktir_vod(struct voditel* vod)
 	}
 }
 
-
-
-void vod_otv(struct avto* avtomobil)
-{
-	avtomobil->vod = NULL;
-	cout << "\n\nОтвязка водителя выполнена успешна. Для возврата в меню нажмите любую клавишу";
-	_getch();
-}
-void vod_priv(avto* avtomobil, voditel* vod)
-{
-	avtomobil->vod = vod;
-	cout << "\n\nПривязка водителя выполнена успешна. Для возврата в меню нажмите любую клавишу";
-	_getch();
-}
-
+//Функции привязки/отвязки водителя + автомобиль
 void privyazka(avto* avtomobil, voditel* vod)
 {
 	int menu_p;
@@ -509,11 +493,13 @@ void privyazka(avto* avtomobil, voditel* vod)
 		menu_p = _getch();
 		if (menu_p == '1')
 		{
-			vod_priv(avtomobil, vod);
+			avtomobil->vod = vod;
+			cout << "\n\nПривязка водителя выполнена успешна.";
 		}
 		else if (menu_p == '2')
 		{
-			vod_otv(avtomobil);
+			avtomobil->vod = NULL;
+			cout << "\n\nОтвязка водителя выполнена успешна.";
 		}
 	}
 	else
@@ -526,10 +512,9 @@ void privyazka(avto* avtomobil, voditel* vod)
 		{
 			cout << "Автомобиль для привязки не найден.";
 		}
-		cout << "Для возврата в меню нажмите любую клавишу";
-		_getch();
 	}
-
+	cout << "\n\nДля возврата в меню нажмите любую клавишу";
+	_getch();
 }
 
 //главное меню
