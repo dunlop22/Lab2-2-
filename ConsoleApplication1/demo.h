@@ -146,6 +146,15 @@ void prosmotr_voditel(int vsego_vodit, struct voditel* vod)
     }
 }
 
+void vivod_kolesa(struct kolesa* koleso)
+{
+    cout << "\n\nИНФОРМАЦИЯ О КОЛЕСАХ\nШирина колеса: " << koleso->shirina;
+    /*cout << "\nДиаметр колеса: " << mashina[tekuchee].har3.diametr;
+    cout << "\nВысота колеса: " << mashina[tekuchee].har3.visota;
+    cout << "\nТип диска: " << mashina[tekuchee].har3.tip_diska;
+    */
+}
+
 //функция вывода информации о текущих автомобилях
 void prosmotr_avto(int vsego, struct avto* mashina, struct voditel* vod)
 {
@@ -153,18 +162,18 @@ void prosmotr_avto(int vsego, struct avto* mashina, struct voditel* vod)
     for (i = 0; i < vsego; i++)
     {
         cout << "\nАвтомобиль №" << i + 1 << "\n";
-        /*
-        prosmotr_kolesa(&(mashina + i.har3));
-        prosmotr_korobka(&mashina[i].har4);
+        vivod_kolesa(&(mashina + i)->har3);
+        /*prosmotr_korobka(&(mashina[0].har4);
         prosmotr_motor(&mashina[i].har2);
         prosmotr_obchee(&mashina[i].har5);
         /*if (mashina[i].vod != -1)
         {
             cout << "\n\nВодитель: " << vod[mashina[i].vod].name;
         }
-        */
         cout << "\n****************************\n";
+        */
     }
+    
 }
 
 ///функция анализа данных авто
@@ -514,6 +523,10 @@ int demo()
 
         menu = _getch();
         
+
+        mashina = (avto*)malloc(1 * sizeof(avto));
+        vod = (voditel*)malloc(1 * sizeof(voditel));
+
         if (menu == '1')
         {
             do
@@ -524,6 +537,7 @@ int demo()
             } while (kol_vo_m > 0 && kol_vo_m < 9);
             mashina = (avto*)malloc(kol_vo_m * sizeof(avto));
             new_car(&mashina[0]);
+            //new_car(&mashina[0]);
 
         }
         if (menu == '2')

@@ -12,7 +12,7 @@
 using namespace std;
 
 //фукнция создания нового двигателя
-void new_motor(struct motor* motorishe)
+void new_motor( motor* motorishe)
 {
 	int menu;
 	do
@@ -83,7 +83,7 @@ void new_motor(struct motor* motorishe)
 }
 
 //функция создания новых колес
-void new_kolesa(struct kolesa* koleso)
+void new_kolesa( kolesa* koleso)
 {
 	int menu;
 	do
@@ -138,7 +138,7 @@ void new_kolesa(struct kolesa* koleso)
 }
 
 //функция создания общих характеристик
-void new_obchee(struct obchee* obchie)
+void new_obchee( obchee* obchie)
 {
 	int menu;
 	do
@@ -219,7 +219,7 @@ void new_obchee(struct obchee* obchie)
 }
 
 //функция создания новой коробки передач
-void new_korobka(struct korobka_peredach* korobka_peredach1)
+void new_korobka( korobka_peredach* korobka_peredach1)
 {
 	int menu;
 	do
@@ -256,7 +256,7 @@ void new_korobka(struct korobka_peredach* korobka_peredach1)
 }
 
 //функция создания нового водителя
-void new_vod(struct voditel* vod)
+void new_vod( voditel* vod)
 {
 	int menu;
 	do
@@ -317,7 +317,7 @@ void new_vod(struct voditel* vod)
 }
 
 //функция создания нового автомобиля
-void new_car(struct avto* avtomobil)
+void new_car( avto* avtomobil)
 {
 	new_motor(&avtomobil->har2);
 	new_obchee(&avtomobil->har5);
@@ -326,7 +326,7 @@ void new_car(struct avto* avtomobil)
 }
 
 //функция просмотра информации о двигателе
-void prosmotr_motor(struct motor* motorishe)
+void prosmotr_motor(motor* motorishe)
 {
 	if (motorishe->rasxod >= 0)
 	{
@@ -344,7 +344,7 @@ void prosmotr_motor(struct motor* motorishe)
 }
 
 //функция просмотра информации о колесах
-void prosmotr_kolesa(struct kolesa *koleso)
+void prosmotr_kolesa(kolesa *koleso)
 {
 	if (koleso->visota >= 0)
 	{
@@ -360,7 +360,7 @@ void prosmotr_kolesa(struct kolesa *koleso)
 }
 
 //функция просмотра общей информации
-void prosmotr_obchee(struct obchee *obchie)
+void prosmotr_obchee( obchee *obchie)
 {
 	if (obchie->obem_benzobaka >= 0)
 	{
@@ -379,7 +379,7 @@ void prosmotr_obchee(struct obchee *obchie)
 }
 
 //функция просмотра информации о коробке переключения
-void prosmotr_korobka(struct korobka_peredach* korobka_peredach1)
+void prosmotr_korobka( korobka_peredach* korobka_peredach1)
 {
 	if (korobka_peredach1->kolvo_peredach >= 0)
 	{
@@ -393,7 +393,7 @@ void prosmotr_korobka(struct korobka_peredach* korobka_peredach1)
 }
 
 //функция просмотра информации о водителе
-void prosmotr_vod(struct voditel* vod)
+void prosmotr_vod(voditel* vod)
 {
 	cout << "\n\nИНФОРМАЦИЯ О ВОДИТЕЛЕ:\nФИО: " << vod->name;
 	cout << "\nВозраст: " << vod->age;
@@ -517,6 +517,19 @@ void privyazka(avto* avtomobil, voditel* vod)
 	_getch();
 }
 
+
+void demo(avto *mashina1, voditel *vod1)
+{
+	int kol_vo_m;
+	do
+	{
+		system("cls");
+		cout << "Введите количество новых автомобилей (не более 9): ";
+		kol_vo_m = _getch();
+	} while (kol_vo_m > 0 && kol_vo_m < 9);
+	mashina1 = (avto*)malloc(kol_vo_m * sizeof(avto));
+	new_car(&mashina1[0]);
+}
 //главное меню
 void gl_menu()
 {
