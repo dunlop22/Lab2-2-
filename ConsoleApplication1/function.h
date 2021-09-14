@@ -483,14 +483,53 @@ void redaktir_vod(struct voditel* vod)
 
 	}
 }
+
+
+
 void vod_otv(struct avto* avtomobil)
 {
-	voditel* vod = NULL;
+	avtomobil->vod = NULL;
+	cout << "\n\nОтвязка водителя выполнена успешна. Для возврата в меню нажмите любую клавишу";
+	_getch();
 }
 void vod_priv(avto* avtomobil, voditel* vod)
 {
 	avtomobil->vod = vod;
-	return;
+	cout << "\n\nПривязка водителя выполнена успешна. Для возврата в меню нажмите любую клавишу";
+	_getch();
+}
+
+void privyazka(avto* avtomobil, voditel* vod)
+{
+	int menu_p;
+	system("cls");
+	if (vod->age >= 0 && avtomobil->har2.kol_vo_cilindr >= 0)
+	{
+		cout << "1) Привязка водителя\n2) Отвязка водителя";
+		menu_p = _getch();
+		if (menu_p == '1')
+		{
+			vod_priv(avtomobil, vod);
+		}
+		else if (menu_p == '2')
+		{
+			vod_otv(avtomobil);
+		}
+	}
+	else
+	{
+		if (vod->age < 0)
+		{
+			cout << "Водитель для привязки не найден.";
+		}
+		else if (avtomobil->har2.kol_vo_cilindr < 0)
+		{
+			cout << "Автомобиль для привязки не найден.";
+		}
+		cout << "Для возврата в меню нажмите любую клавишу";
+		_getch();
+	}
+
 }
 
 //главное меню
@@ -547,19 +586,7 @@ void gl_menu()
 		}
 		else if (menu == '0')
 		{
-			int menu_p;
-			system("cls");
-
-			cout << "1) Привязка водителя\n2) Отвязка водителя";
-			menu_p = _getch();
-			if (menu_p == '1')
-			{
-				vod_priv(&avtomobil, &vod);
-			}
-			else if (menu_p == '2')
-			{
-				vod_otv(&avtomobil);
-			}
+			privyazka(&avtomobil, &vod);
 		}
 	} while (menu != 27);
 
