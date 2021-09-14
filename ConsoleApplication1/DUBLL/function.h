@@ -402,18 +402,6 @@ void prosmotr_vod(voditel* vod)
 	cout << "\nСтаж: " << vod->stag << "\n***************************************\n\n";
 }
 
-void prosmotr_avto(avto* avtomobil)
-{
-	prosmotr_obchee(&avtomobil->har5);
-	prosmotr_motor(&avtomobil->har2);
-	prosmotr_kolesa(&avtomobil->har3);
-	prosmotr_korobka(&avtomobil->har4);
-
-	if (avtomobil->vod != NULL)
-	{
-		prosmotr_vod(avtomobil->vod);
-	}
-}
 //функция просмотра комплектующих и автомобиля
 void prosmotr_agr(struct motor* motorishe, struct kolesa* koleso, struct obchee* obchie, struct korobka_peredach* korobka_peredach1, struct avto* avtomobil, struct voditel *vod)
 {
@@ -442,7 +430,15 @@ void prosmotr_agr(struct motor* motorishe, struct kolesa* koleso, struct obchee*
 	{
 		if (avtomobil->har2.kol_vo_cilindr >= 0)
 		{
-			prosmotr_avto(avtomobil);
+			prosmotr_motor(&avtomobil->har2);
+			prosmotr_kolesa(&avtomobil->har3);
+			prosmotr_obchee(&avtomobil->har5);
+			prosmotr_korobka(&avtomobil->har4);
+			
+			if (avtomobil->vod != NULL)
+			{
+				prosmotr_vod(avtomobil->vod);
+			}
 		}
 		else
 		{

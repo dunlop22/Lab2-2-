@@ -12,12 +12,6 @@
 #include <fcntl.h>
 using namespace std;
 
-//function.h
-void prosmotr_avto(avto avtomobil);
-void prosmotr_kolesa(kolesa* koleso);
-void prosmotr_obchee(obchee* obchie);
-void prosmotr_korobka(korobka_peredach* korobka_peredach1);
-void prosmotr_motor(motor* motorishe);
 
 
 void setON();
@@ -26,6 +20,8 @@ void tip(string name);
 void up_polosa();
 void down_polosa();
 void polosa();
+void prosmotr_voditel(int vsego_vodit, struct voditel* vod);
+void prosmotr_avto(int vsego, struct avto* mashina, struct voditel* vod);
 void del_avto(struct avto* mashina, int* vsego, struct voditel* vod);
 void compare(double inf1, double inf2);
 void del_vod(struct voditel* vod, int* kol_vo_vodit, struct avto* mashina, int vsego);
@@ -134,38 +130,52 @@ void polosa()
     cout << "\n";
 }
 
+//функция просмотра информации о водителях
+void prosmotr_voditel(int vsego_vodit, struct voditel* vod)
+{
+    int i;
+    system("cls");
+    for (i = 0; i < vsego_vodit; i++)
+    {
+        cout << "Водитель №" << i + 1;
+        cout << "\nФИО: " << vod[i].name;
+        cout << "\nВозраст: " << vod[i].age;
+        cout << "\nПол: " << vod[i].pol;
+        cout << "\nСтатус Covid-19: " << vod[i].covid_19;
+        cout << "\nСтаж: " << vod[i].stag << "\n***************************************\n\n";
+    }
+}
 
-/*
-//функция вывода информации о текущих автомобилях 
+void vivod_kolesa(struct kolesa* koleso)
+{
+    cout << "\n\nИНФОРМАЦИЯ О КОЛЕСАХ\nШирина колеса: " << koleso->shirina;
+    /*cout << "\nДиаметр колеса: " << mashina[tekuchee].har3.diametr;
+    cout << "\nВысота колеса: " << mashina[tekuchee].har3.visota;
+    cout << "\nТип диска: " << mashina[tekuchee].har3.tip_diska;
+    */
+}
+
+//функция вывода информации о текущих автомобилях
 void prosmotr_avto(int vsego, struct avto* mashina, struct voditel* vod)
 {
     int i;
     for (i = 0; i < vsego; i++)
     {
         cout << "\nАвтомобиль №" << i + 1 << "\n";
-        prosmotr_avto(&mashina[i]);
-        
-        
-        /*
-        prosmotr_motor(&(mashina + i)->har2);
-        
-
-        prosmotr_obchee(*mashina[i].har5);
-        prosmotr_motor((mashina + i)->har2);
-        prosmotr_kolesa(mashina[i].har3);
-        prosmotr_korobka((mashina + i)->har4);
-        
-        
-        if ((mashina + i)->vod == NULL)
+        vivod_kolesa(&(mashina + i)->har3);
+        /*prosmotr_korobka(&(mashina[0].har4);
+        prosmotr_motor(&mashina[i].har2);
+        prosmotr_obchee(&mashina[i].har5);
+        /*if (mashina[i].vod != -1)
         {
-            cout << "\n\nВодитель: " << (mashina + i)->vod->name;
+            cout << "\n\nВодитель: " << vod[mashina[i].vod].name;
         }
         cout << "\n****************************\n";
+        */
     }
+    
+}
 
-}*/
-
-/*
 ///функция анализа данных авто
 void compare(double inf1, double inf2)
 {
@@ -252,6 +262,7 @@ void compare(double inf1, double inf2)
     cout << "\n";
 }
 
+
 //функция удаления информации об авто
 void del_avto(struct avto* mashina, int* vsego, struct voditel* vod)
 {
@@ -298,6 +309,15 @@ void del_vod(struct voditel* vod, int* kol_vo_vodit, struct avto* mashina, int v
     }
     *kol_vo_vodit = *kol_vo_vodit - 1;
 
+    /*
+    for (i = 0; i < vsego; i++)
+    {
+        if (mashina[i].vod == numb - 1)
+        {
+            mashina[i].vod = -1;
+        }
+    }
+    */
 }
 
 //функция создания связи между водителем и авто
@@ -452,20 +472,16 @@ void compare_avto(int vsego, struct avto* mashina, struct voditel* vod)
 
 
 }
-*/
-void new_car(avto* avtomobil);
-void new_vod(voditel* vod);
 
 int demo()
 {
     int tekuchee = 0;
     int menu;
-    int i;
     int kol_vo_v = 0;
     int kol_vo_m = 0;
     int teck_voditel = 0;
     struct avto* mashina;    //создание массива автомобилей
-    struct voditel* vod1;    //создание массива водителей
+    struct voditel* vod;    //создание массива водителей
     
     do
     {
@@ -502,9 +518,15 @@ int demo()
             cout << "\n\n0) Изменение информации о водителе";
         }
         cout << "\n\nESC - выход";
+
+        //mashina = (avto*)malloc(kol_vo_m * sizeof(avto));
+
         menu = _getch();
-        vod1 = (voditel*)malloc(0 * sizeof(voditel));
-        mashina = (avto*)malloc(0 * sizeof(avto));
+        
+
+        mashina = (avto*)malloc(1 * sizeof(avto));
+        vod = (voditel*)malloc(1 * sizeof(voditel));
+
         if (menu == '1')
         {
             do
@@ -512,15 +534,11 @@ int demo()
                 system("cls");
                 cout << "Введите количество новых автомобилей (не более 9): ";
                 kol_vo_m = _getch();
-            } while (kol_vo_m < '1' && kol_vo_m > '9');
-            kol_vo_m = kol_vo_m - 48;
+            } while (kol_vo_m > 0 && kol_vo_m < 9);
             mashina = (avto*)malloc(kol_vo_m * sizeof(avto));
-            for (i = 0; i < kol_vo_m; i++)
-            {
-                new_car(&mashina[i]);
-                cout << "Автомобиль №" << i + 1 << " успешно создан.\n\nНажмите любую клавишу для продолжения";
-                _getch();
-            }
+            new_car(&mashina[0]);
+            //new_car(&mashina[0]);
+
         }
         if (menu == '2')
         {
@@ -529,48 +547,38 @@ int demo()
                 system("cls");
                 cout << "Введите количество новых водителей (не более 9): ";
                 kol_vo_v = _getch();
-            } while (kol_vo_v < '1' && kol_vo_v > '9');
-            kol_vo_v = kol_vo_v - 48;
-            vod1 = (voditel*)malloc(kol_vo_v * sizeof(voditel));
-            for (i = 0; i < kol_vo_v; i++)
-            {
-                new_vod(&vod1[i]);
-            }
+            } while (kol_vo_v > 0 && kol_vo_v < 9);
+            vod = (voditel*)malloc(kol_vo_v * sizeof(voditel));
         }
         if (menu == '3' && kol_vo_m > 0)
         {
             system("cls");
-            for (i = 0; i < kol_vo_m; i++)
-            {
-                prosmotr_avto(&&mashina[0]);
-            }
-            //prosmotr_avto(kol_vo_m, mashina, vod1);
-
+            prosmotr_avto(kol_vo_m, mashina, vod);
             cout << "\n\nНажмите любую клавишу для возврата в меню";
             _getch();
         }
         if (menu == '4' && kol_vo_v > 0)
         {
             system("cls");
-            //prosmotr_voditel(kol_vo_v, vod1);
+            prosmotr_voditel(kol_vo_v, vod);
             cout << "\n\nДля возврата в меню нажмите любую клавишу.";
             _getch();
         }
         if (menu == '5' && kol_vo_m > 1)
         {
-            compare_avto(kol_vo_m, mashina, vod1);
+            compare_avto(kol_vo_m, mashina, vod);
         }
         if (menu == '7')
         {
-            create_vod_avto(mashina, kol_vo_m, kol_vo_v, vod1);
+            create_vod_avto(mashina, kol_vo_m, kol_vo_v, vod);
         }
         if (menu == '8' && kol_vo_v > 0)
         {
-            del_vod(vod1, &kol_vo_v, mashina, kol_vo_m);
+            del_vod(vod, &kol_vo_v, mashina, kol_vo_m);
         }
         if (menu == '9' && kol_vo_m > 0)
         {
-            del_avto(mashina, &kol_vo_m, vod1);
+            del_avto(mashina, &kol_vo_m, vod);
         }
         if (menu == '0' && kol_vo_v > 0)
         {
@@ -578,7 +586,7 @@ int demo()
         }
         if (menu == 27)
         {
-            exit;
+            return 27;
         }
     } while (true);
 }
