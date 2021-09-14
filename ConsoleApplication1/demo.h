@@ -8,14 +8,12 @@
 #include <stdlib.h>
 #include <io.h>
 #include "function.h"
-//#include "struct.h"
+#include "struct.h"
 #include <fcntl.h>
 using namespace std;
 
 
 
-/*
-void prosmotr_avto(int vsego, struct avto* mashina, struct voditel* vod);
 void setON();
 void setOFF();
 void tip(string name);
@@ -155,14 +153,16 @@ void prosmotr_avto(int vsego, struct avto* mashina, struct voditel* vod)
     for (i = 0; i < vsego; i++)
     {
         cout << "\nАвтомобиль №" << i + 1 << "\n";
-        prosmotr_kolesa(&mashina[i].har3);
+        /*
+        prosmotr_kolesa(&(mashina + i.har3));
         prosmotr_korobka(&mashina[i].har4);
         prosmotr_motor(&mashina[i].har2);
         prosmotr_obchee(&mashina[i].har5);
-        if (mashina[i].vod != -1)
+        /*if (mashina[i].vod != -1)
         {
             cout << "\n\nВодитель: " << vod[mashina[i].vod].name;
         }
+        */
         cout << "\n****************************\n";
     }
 }
@@ -300,6 +300,7 @@ void del_vod(struct voditel* vod, int* kol_vo_vodit, struct avto* mashina, int v
     }
     *kol_vo_vodit = *kol_vo_vodit - 1;
 
+    /*
     for (i = 0; i < vsego; i++)
     {
         if (mashina[i].vod == numb - 1)
@@ -307,6 +308,7 @@ void del_vod(struct voditel* vod, int* kol_vo_vodit, struct avto* mashina, int v
             mashina[i].vod = -1;
         }
     }
+    */
 }
 
 //функция создания связи между водителем и авто
@@ -333,7 +335,7 @@ void create_vod_avto(struct avto* mashina, int vsego, int kol_vo_vodit, struct v
         scanf("%d", &numb_vod);
         while (getchar() != '\n');
     } while (numb_vod < 1 || numb_vod > kol_vo_vodit);
-    mashina[numb - 1].vod = numb_vod - 1;
+    //mashina[numb - 1].vod = numb_vod - 1;
 }
 
 //функция сравнения двух автомобилей
@@ -469,9 +471,7 @@ int demo()
     int kol_vo_v = 0;
     int kol_vo_m = 0;
     int teck_voditel = 0;
-    struct avto* mashina1;    //создание массива автомобилей
-    struct voditel* vod1;    //создание массива водителей
-    /*struct avto* mashina;    //создание массива автомобилей
+    struct avto* mashina;    //создание массива автомобилей
     struct voditel* vod;    //создание массива водителей
     
     do
@@ -522,7 +522,9 @@ int demo()
                 cout << "Введите количество новых автомобилей (не более 9): ";
                 kol_vo_m = _getch();
             } while (kol_vo_m > 0 && kol_vo_m < 9);
-            mashina1 = (avto*)malloc(kol_vo_m * sizeof(avto));
+            mashina = (avto*)malloc(kol_vo_m * sizeof(avto));
+            new_car(&mashina[0]);
+
         }
         if (menu == '2')
         {
@@ -532,9 +534,8 @@ int demo()
                 cout << "Введите количество новых водителей (не более 9): ";
                 kol_vo_v = _getch();
             } while (kol_vo_v > 0 && kol_vo_v < 9);
-            vod1 = (voditel*)malloc(kol_vo_v * sizeof(voditel));
+            vod = (voditel*)malloc(kol_vo_v * sizeof(voditel));
         }
-        /*
         if (menu == '3' && kol_vo_m > 0)
         {
             system("cls");
@@ -575,4 +576,3 @@ int demo()
         }
     } while (true);
 }
-*/

@@ -567,7 +567,7 @@ void gl_menu()
 		}
 		else if (menu == '9')
 		{
-			//demo();
+			demo();
 		}
 		else if (menu == '0')
 		{
