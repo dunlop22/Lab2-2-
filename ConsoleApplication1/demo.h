@@ -442,14 +442,8 @@ void create_vod_avto(struct avto* mashina, int vsego, int kol_vo_vodit, struct v
 }
 
 
-int demo()
+void demo()
 {
-    int black = 0;
-    int white = 15;
-    HANDLE  hConsole;
-    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, (WORD)((white << 4) | black));
-
     int menu;
     int i;
     int kol_vo_v = 0;
@@ -562,9 +556,5 @@ int demo()
         {
             del_avto(mashina, &kol_vo_m, vod1);
         }
-        if (menu == 27)
-        {
-            exit;
-        }
-    } while (true);
+    } while (menu != 27);
 }

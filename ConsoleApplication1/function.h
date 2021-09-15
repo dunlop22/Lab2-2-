@@ -616,6 +616,7 @@ void gl_menu()
 		{
 			privyazka(&avtomobil, &vod);
 		}
+		
 	} while (menu != 27);
 
 }
